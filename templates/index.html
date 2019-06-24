@@ -8,11 +8,13 @@
     <input type="submit" value="Add Task">
   </form>
   <div class="todos">
-    <ul>
-      {% for todo in todos %}
-      <li>{{ todo.todo }}</li>
-      {% endfor %}
-    </ul>
+    {% for todo in todos %}
+    <div class="todo">
+      <p>{{ todo.todo }}</p>
+      <span>{{ todo.created_at|diff_for_human() }}</span>
+      <a href="/{{ todo.id }}/delete">x</a>
+    </div>
+    {% endfor %}
   </div>
 </div>
 

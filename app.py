@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
+from humanize import naturaltime
+from jinja2 import filters
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
@@ -32,6 +34,23 @@ def index():
         todos = Todo.query.order_by(Todo.created_at).all()
         return render_template('index.html', todos=todos)
 
+
+@app.route('/<id>/delete')
+def delete_todo(id):
+    todo = Todo.query.get_or_404(id)
+    try:
+        db.session.delete(todo)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'Failed deleting todo, there\'s something wrong!'
+
+
+def diff_for_human(time):
+    return naturaltime(time - timedelta(hours=1))
+
+
+filters.FILTERS['diff_for_human'] = diff_for_human
 
 if __name__ == "__main__":
     app.run(debug=True)
