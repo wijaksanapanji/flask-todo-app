@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>Flask Todo App</h1>
+<div class="container">
+  <h1>Flask Todo App</h1>
+  <form action="/" method="POST">
+    <input type="text" name="todo" placeholder="something need to be done..">
+    <input type="submit" value="Add Task">
+  </form>
+  <div class="todos">
+    <ul>
+      {% for todo in todos %}
+      <li>{{ todo.todo }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
 {% endblock %}
