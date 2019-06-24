@@ -36,7 +36,7 @@ def index():
 
 
 @app.route('/<id>/delete')
-def delete_todo(id):
+def delete(id):
     todo = Todo.query.get_or_404(id)
     try:
         db.session.delete(todo)
@@ -44,6 +44,20 @@ def delete_todo(id):
         return redirect('/')
     except:
         return 'Failed deleting todo, there\'s something wrong!'
+
+
+@app.route('/<id>/completed')
+def completed(id):
+    todo = Todo.query.get_or_404(id)
+    try:
+        if todo.completed == 1:
+            todo.completed = 0
+        else:
+            todo.completed = 1
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'Failed updating todo, there\'s something wrong!'
 
 
 def diff_for_human(time):

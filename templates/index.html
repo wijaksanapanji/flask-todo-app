@@ -10,8 +10,13 @@
   <div class="todos">
     {% for todo in todos %}
     <div class="todo">
+      {% if todo.completed %}
+      <p><strike>{{ todo.todo }}</strike></p>
+      {% else %}
       <p>{{ todo.todo }}</p>
+      {% endif %}
       <span>{{ todo.created_at|diff_for_human() }}</span>
+      <a href="/{{ todo.id }}/completed">?</a>
       <a href="/{{ todo.id }}/delete">x</a>
     </div>
     {% endfor %}
