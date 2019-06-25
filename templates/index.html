@@ -1,26 +1,36 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container">
+<div>
   <h1>Flask Todo App</h1>
-  <form action="/" method="POST">
-    <input type="text" name="todo" placeholder="something need to be done..">
-    <input type="submit" value="Add Task">
-  </form>
+  <div>
+    <form action="/" method="POST">
+      <input type="text" name="todo" placeholder="something need to be done.." required>
+      <button type="submit"><i class="fas fa-plus"></i></button>
+    </form>
+  </div>
+  {% if todos|length < 1 %}
+  <p>There's no todos available, create one now!</p>
+  {% else %}
   <div class="todos">
     {% for todo in todos %}
     <div class="todo">
-      {% if todo.completed %}
-      <p><strike>{{ todo.todo }}</strike></p>
-      {% else %}
-      <p>{{ todo.todo }}</p>
-      {% endif %}
-      <span>{{ todo.created_at|diff_for_human() }}</span>
-      <a href="/{{ todo.id }}/completed">?</a>
-      <a href="/{{ todo.id }}/delete">x</a>
+      <div class="content">
+        {% if todo.completed %}
+        <p><strike>{{ todo.todo }}</strike></p>
+        {% else %}
+        <p>{{ todo.todo }}</p>
+        {% endif %}
+        <span>{{ todo.created_at|diff_for_human() }}</span>
+      </div>
+      <div class="action">
+        <a href="/{{ todo.id }}/delete"><i class="fas fa-trash-alt"></i></a>
+        <a href="/{{ todo.id }}/completed"><i class="fas fa-check"></i></a>
+      </div>
     </div>
     {% endfor %}
   </div>
+  {% endif %}
 </div>
 
 {% endblock %}

@@ -31,7 +31,7 @@ def index():
         except:
             return 'Failed adding todo, there\'s something wrong!'
     else:
-        todos = Todo.query.order_by(Todo.created_at).all()
+        todos = Todo.query.order_by(Todo.created_at.desc()).all()
         return render_template('index.html', todos=todos)
 
 
@@ -50,7 +50,7 @@ def delete(id):
 def completed(id):
     todo = Todo.query.get_or_404(id)
     try:
-
+        todo.completed = 0 if todo.completed == 1 else 1
         db.session.commit()
         return redirect('/')
     except:
