@@ -50,10 +50,7 @@ def delete(id):
 def completed(id):
     todo = Todo.query.get_or_404(id)
     try:
-        if todo.completed == 1:
-            todo.completed = 0
-        else:
-            todo.completed = 1
+        todo.completed = 0 if todo.completed == 1 else 1
         db.session.commit()
         return redirect('/')
     except:
