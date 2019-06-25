@@ -12,7 +12,7 @@ db = SQLAlchemy(app)
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     todo = db.Column(db.String(200), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now)
     completed = db.Column(db.Boolean, default=0)
 
     def __repr__(self):
@@ -50,7 +50,7 @@ def delete(id):
 def completed(id):
     todo = Todo.query.get_or_404(id)
     try:
-        todo.completed = 0 if todo.completed == 1 else 1
+
         db.session.commit()
         return redirect('/')
     except:
@@ -58,7 +58,7 @@ def completed(id):
 
 
 def diff_for_human(time):
-    return naturaltime(time - timedelta(hours=1))
+    return naturaltime(time)
 
 
 filters.FILTERS['diff_for_human'] = diff_for_human
